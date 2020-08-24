@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Course;
 
-class StudentsController extends Controller
+class TeacherCourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        return view('student.account.index');
+        $courses = Course::all();
+        return view('teacher.courses.index')->with('courses',$courses);
     }
 
     /**
@@ -23,7 +25,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        return view('student.account.create');
+        return view('teacher.courses.create');
     }
 
     /**
@@ -34,7 +36,26 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'course_code' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'course_id' => 'required'
+        ]);
+
+        $course = new Course;
+
+        $course->course_code = $request->input('course_code');
+        $course->name = $request->input('name');
+        $course->description = $request->input('description');
+        $course->course_id = $request->input('course_id');
+
+        $course->save();
+
+
+        return redirect('/teacher_course')->with('success', 'Post Created');
+
+
     }
 
     /**

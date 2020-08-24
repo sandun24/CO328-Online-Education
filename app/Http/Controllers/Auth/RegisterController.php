@@ -77,4 +77,12 @@ class RegisterController extends Controller
 
         return $user;
     }
+
+    public function redirectTo()
+    {
+        $this->redirectTo = route('student_account.index');
+            return $this->redirectTo;
+    }
+
+
 }
